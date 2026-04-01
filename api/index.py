@@ -4,6 +4,9 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+
+PUBLIC_DIR = os.path.join(os.path.dirname(__file__), "..", "public")
 
 from config import settings
 from models import TranscribeRequest, TranscribeResponse
@@ -31,6 +34,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+@app.get("/")
+async def serve_index():
+    return FileResponse(os.path.join(PUBLIC_DIR, "index.html"))
+
+@app.get("/style.css")
+async def serve_css():
+    return FileResponse(os.path.join(PUBLIC_DIR, "style.css"), media_type="text/css")
+
+@app.get("/app.js")
+async def serve_js():
+    return FileResponse(os.path.join(PUBLIC_DIR, "app.js"), media_type="application/javascript")
 
 @app.get("/api/health")
 async def health():
