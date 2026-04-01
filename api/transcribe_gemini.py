@@ -1,4 +1,3 @@
-import google.generativeai as genai
 import os
 import time
 from config import settings
@@ -7,8 +6,16 @@ from config import settings
 def transcribe_with_gemini(video_path: str, language: str = "auto") -> dict:
     """
     Uploads video to Gemini File API and requests transcription.
-    Returns dict with transcript, language_detected (None), duration_seconds (None).
+    Requires google-generativeai to be installed (uncomment in requirements.txt).
     """
+    try:
+        import google.generativeai as genai
+    except ImportError:
+        raise RuntimeError(
+            "Google Gemini is not available in this deployment. "
+            "To enable it, uncomment google-generativeai in requirements.txt and redeploy."
+        )
+
     genai.configure(api_key=settings.gemini_api_key)
 
     uploaded = genai.upload_file(
