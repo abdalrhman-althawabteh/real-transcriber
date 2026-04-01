@@ -6,7 +6,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 
-PUBLIC_DIR = os.path.join(os.path.dirname(__file__), "..", "public")
+PUBLIC_DIR = os.path.join(os.path.dirname(__file__), "static")
 
 from config import settings
 from models import TranscribeRequest, TranscribeResponse
